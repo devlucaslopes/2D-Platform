@@ -8,14 +8,16 @@ public class PlayerMovement : MonoBehaviour
     public float JumpForce;
 
     private Rigidbody2D body;
-    private Animator animator;
 
+    private float _direction;
     private bool _isJumping;
+
+    public float Direction { get => _direction; }
+    public bool IsJumping { get => _isJumping; }
 
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -34,42 +36,18 @@ public class PlayerMovement : MonoBehaviour
         {
             _isJumping = true;
             body.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
-
-            animator.SetInteger("transition", 2);
         }
     }
 
     private void Movement()
     {
-        float direction = Input.GetAxisRaw("Horizontal");
-
-        body.velocity = new Vector2(Speed * direction, body.velocity.y);
-
-        if (!_isJumping)
-        {
-            if (direction != 0)
-            {
-                animator.SetInteger("transition", 1);
-            }
-            else
-            {
-                animator.SetInteger("transition", 0);
-            }
-        }
-
-        if (direction > 0)
-        {
-            transform.eulerAngles = Vector3.zero;
-        }
-        else if (direction < 0)
-        {
-            transform.eulerAngles = new Vector3(0, 180, 0);
-        }
+        _direction = Input.GetAxisRaw("Horizontal");
+        body.velocity = new Vector2(Speed * _direction, body.velocity.y);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Ground")
+        if (collision.transform.CompareTag("Ground"))
         {
             _isJumping = false;
         }
