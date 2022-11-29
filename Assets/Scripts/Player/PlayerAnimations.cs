@@ -5,17 +5,23 @@ using UnityEngine;
 public class PlayerAnimations : MonoBehaviour
 {
     private PlayerMovement movement;
+    private PlayerAttack attack;
     private Animator animator;
 
     void Start()
     {
         movement = GetComponent<PlayerMovement>();
+        attack = GetComponent<PlayerAttack>();
         animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (movement.IsJumping)
+        if (attack.IsShooting)
+        {
+            animator.SetTrigger("shoot");
+            attack.IsShooting = false;
+        } else if (movement.IsJumping)
         {
             animator.SetInteger("transition", 2);
         } else if (movement.Direction != 0)
