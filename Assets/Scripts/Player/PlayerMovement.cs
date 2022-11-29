@@ -11,7 +11,9 @@ public class PlayerMovement : MonoBehaviour
 
     private float _direction;
     private bool _isJumping;
+    private bool _lookToRight = true;
 
+    public bool LookToRight { get => _lookToRight; }
     public float Direction { get => _direction; }
     public bool IsJumping { get => _isJumping; }
 
@@ -43,6 +45,14 @@ public class PlayerMovement : MonoBehaviour
     {
         _direction = Input.GetAxisRaw("Horizontal");
         body.velocity = new Vector2(Speed * _direction, body.velocity.y);
+
+        if (_direction > 0)
+        {
+            _lookToRight = true;
+        } else if (_direction < 0)
+        {
+            _lookToRight = false;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public Transform ShootPoint;
+    public GameObject BulletPrefab;
+
     public float BulletSpeed;
     public float ReloadTime;
+
+    private PlayerMovement movement;
 
     private bool _isShooting;
     private bool _isReloading;
@@ -15,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Start()
     {
-        
+        movement = GetComponent<PlayerMovement>();
     }
 
     void Update()
@@ -33,11 +38,14 @@ public class PlayerAttack : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1") && !_isReloading)
         {
-            Debug.Log("Atirou!");
-
             _isShooting = true;
             _isReloading = true;
             _timer = ReloadTime;
+
+            Bullet bullet = Instantiate(BulletPrefab, ShootPoint.position, ShootPoint.rotation).GetComponent<Bullet>();
+
+            bullet.Speed = BulletSpeed;
+            bullet.Direction = movement.LookToRight ? 1 : -1;
         }
     }
 }
