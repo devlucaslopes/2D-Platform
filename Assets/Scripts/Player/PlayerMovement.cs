@@ -61,5 +61,22 @@ public class PlayerMovement : MonoBehaviour
         {
             _isJumping = false;
         }
+
+        if (collision.transform.CompareTag("Moving Platform"))
+        {
+            if (transform.position.y > collision.transform.position.y)
+            {
+                transform.SetParent(collision.transform);
+            }
+
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.CompareTag("Moving Platform"))
+        {
+            transform.SetParent(null);
+        }
     }
 }
