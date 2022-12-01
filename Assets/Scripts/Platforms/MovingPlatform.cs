@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    public Transform Platform;
-    public Transform[] Waypoints;
+    [SerializeField] private Transform Platform;
+    [SerializeField] private Transform[] Waypoints;
 
-    public float Speed;
+    [SerializeField] private float Speed;
 
     private int _indexWaypoint = 0;
 

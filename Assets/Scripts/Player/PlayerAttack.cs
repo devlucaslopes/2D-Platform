@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public Transform ShootPoint;
-    public GameObject BulletPrefab;
+    [SerializeField] private Transform ShootPoint;
+    [SerializeField] private GameObject BulletPrefab;
 
-    public float BulletSpeed;
-    public float ReloadTime;
+    [SerializeField] private float BulletSpeed;
+    [SerializeField] private float ReloadTime;
 
     private PlayerMovement movement;
 

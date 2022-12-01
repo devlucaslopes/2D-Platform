@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float Speed;
-    public float JumpForce;
+    [Header("Movement Settings")]
+    [SerializeField] private float Speed;
+    [SerializeField] private float JumpForce;
+
+    [Header("Ground Detector")]
+    [SerializeField] private LayerMask GroundMask;
+    [SerializeField] private Transform GroundPoint;
+    [SerializeField] private Vector3 GroundPointOffset;
+    [SerializeField] private float RaycastRange;
 
     private Rigidbody2D body;
 
-    private float _direction;
     private bool _isJumping;
+    private bool _isGrounded;
+
+    private float _direction;
     private bool _lookToRight = true;
 
     public bool LookToRight { get => _lookToRight; }
@@ -24,12 +33,27 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        CheckIsGrounded();
+
         Jump();
     }
 
     private void FixedUpdate()
     {
         Movement();
+    }
+
+    private void CheckIsGrounded()
+    {
+        RaycastHit2D rightFoot = Physics2D.Raycast(GroundPoint.position + GroundPointOffset, Vector2.down, RaycastRange, GroundMask);
+        RaycastHit2D leftFoot = Physics2D.Raycast(GroundPoint.position - GroundPointOffset, Vector2.down, RaycastRange, GroundMask);
+
+        if (rightFoot.collider || leftFoot.collider) {
+            _isJumping = false;
+        } else
+        {
+            _isJumping = true;
+        }
     }
 
     private void Jump()
@@ -57,11 +81,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.CompareTag("Ground"))
-        {
-            _isJumping = false;
-        }
-
         if (collision.transform.CompareTag("Moving Platform"))
         {
             if (transform.position.y > collision.transform.position.y)
@@ -78,5 +97,13 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.SetParent(null);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawRay(GroundPoint.position + GroundPointOffset, Vector2.down * RaycastRange);
+        Gizmos.DrawRay(GroundPoint.position - GroundPointOffset, Vector2.down * RaycastRange);
     }
 }
