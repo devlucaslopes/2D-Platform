@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Moving Platform
+  - Trap
   layers:
   - Default
   - TransparentFX
