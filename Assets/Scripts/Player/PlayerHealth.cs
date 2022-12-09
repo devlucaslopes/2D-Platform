@@ -6,11 +6,12 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int health;
 
+    public int TotalHealth { get => health; }
+
     public void OnHit()
     {
         health--;
-
-        Debug.Log($"Vidas: {health}");
+        GameManager.Instance.UpdateHealth();
 
         if (health <= 0)
         {
