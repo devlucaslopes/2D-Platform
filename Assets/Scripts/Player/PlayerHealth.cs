@@ -6,7 +6,10 @@ public class PlayerHealth : MonoBehaviour
 {
     [SerializeField] private int health;
 
+    private bool _isAlive = true;
+
     public int TotalHealth { get => health; }
+    public bool IsAlive { get => _isAlive; }
 
     public void OnHit()
     {
@@ -15,7 +18,8 @@ public class PlayerHealth : MonoBehaviour
 
         if (health <= 0)
         {
-            Debug.Log("GAME OVER!");
+            _isAlive = false;
+            GameManager.Instance.ShowGameOver();
         }
     }
 

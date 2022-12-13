@@ -11,6 +11,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float ReloadTime;
 
     private PlayerMovement movement;
+    private PlayerHealth health;
 
     private bool _isShooting;
     private bool _isReloading;
@@ -21,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         movement = GetComponent<PlayerMovement>();
+        health = GetComponent<PlayerHealth>();
     }
 
     void Update()
@@ -36,7 +38,7 @@ public class PlayerAttack : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire1") && !_isReloading)
+        if (Input.GetButtonDown("Fire1") && !_isReloading && health.IsAlive)
         {
             _isShooting = true;
             _isReloading = true;
