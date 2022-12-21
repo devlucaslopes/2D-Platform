@@ -29,5 +29,13 @@ public class PlayerHealth : MonoBehaviour
         {
             OnHit();
         }
+
+        if (collision.CompareTag("Heal"))
+        {
+            health++;
+            GameManager.Instance.UpdateHealth();
+
+            Destroy(collision.gameObject);
+        }
     }
 }

@@ -10,10 +10,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerHealth Health;
     [SerializeField] private TextMeshProUGUI UITotalHealth;
 
+    [Header("Score")]
+    [SerializeField] private TextMeshProUGUI UITotalScore;
+
     [Header("Game Over")]
     [SerializeField] private GameObject UIGameOver;
 
     public static GameManager Instance;
+
+    private int _totalScore;
 
     void Start()
     {
@@ -38,5 +43,11 @@ public class GameManager : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void UpdateScore(int score)
+    {
+        _totalScore += score;
+        UITotalScore.text = _totalScore.ToString();
     }
 }
